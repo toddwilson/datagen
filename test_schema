@@ -1,0 +1,5 @@
+id          int[5]
+first       string[10]
+last        string[10]
+country     randomSet[US,UK,CA,MX,NZ,AU]
+is_active   bool
