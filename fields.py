@@ -1,6 +1,9 @@
 from datagen import field_type, field_arg
 from random import randint, choice, random
 import sys
+import os
+import io
+import csv
 from time import strptime, mktime, strftime, localtime
 
 
@@ -27,47 +30,68 @@ def arg_parser(arg):
     return args
 
 
-@field_type(name="bool")
+def datafile(name):
+    path = os.path.dirname(__file__)
+    fullpath = os.path.join(path, 'data', name)
+
+    def cell(row):
+        if len(row) == 1:
+            return row[0]
+        else:
+            return row
+
+    with io.open(fullpath, 'r', encoding='latin-1') as f:
+        reader = csv.reader(f, delimiter=';')
+        data = [cell([item for item in row]) for row in reader]
+
+    return data
+
+
+firstnames = datafile('firstnames')
+lastnames = datafile('lastnames')
+
+
+@field_type("bool")
 def bool_field(arg):
     return choice((1, 0))
 
 
-@field_type(name="int")
+@field_type("int")
 def integer_field(length):
     return randint(0, length)
 
 
-@field_arg(name="int")
+@field_arg("int")
 def integer_field_argument(arg):
     return int('9' * int(arg))
 
 
-@field_type(name="string")
+@field_type("string")
 def string_field(length):
     return ''.join(choice(lc_set) for i in range(length))
 
 
-@field_arg(name="string")
+@field_arg("string")
 def string_field_argument(arg):
     return int(arg)
 
 
-@field_type(name="randomset")
+@field_type("randomset")
 def randomset_field(members):
     return choice(members)
 
 
-@field_arg(name="randomset")
+@field_arg("randomset")
 def randomset_field_argument(arg):
     return [i for i in arg.split(',')]
 
 
-@field_type(name="ipv4")
+@field_type("ipv4")
 def ipv4_field(arg):
     return '.'.join('%s' % randint(0, 255) for i in range(4))
 
 
-@field_arg(name="date")
+@field_arg("date")
 def date_field_argument(arg):
     args = arg_parser(arg)
     if 'before' not in args:
@@ -82,11 +106,23 @@ def date_field_argument(arg):
     return before, after
 
 
-@field_type(name="date")
+@field_type("date")
 def date_field(args):
     before, after = args
 
-    prop = random()
-    ptime = before + prop * (after - before)
+    return strftime("%Y-%m-%d", localtime(before + random() * (after - before)))
 
-    return strftime("%Y-%m-%d", localtime(ptime))
+
+@field_type("ssn")
+def ssn_field(arg):
+    return "%.3i-%.2i-%.4i" % (randint(1, 999), randint(1, 99), randint(1, 9999))
+
+
+@field_type("firstname")
+def firstname_field(arg):
+    return choice(firstnames)
+
+
+@field_type("lastname")
+def lastname_field(arg):
+    return choice(lastnames)

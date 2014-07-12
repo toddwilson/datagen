@@ -35,6 +35,8 @@ def read_schema_file(path):
 
     for line in f.readlines():
         line = line.strip()
+        if line.startswith('#'):
+            continue
         match = re_parse_file.match(line)
 
         if match is None:
@@ -52,10 +54,8 @@ def read_schema_file(path):
     return names, fieldtypes
 
 
-def field_type(**kwargs):
+def field_type(name):
     """ Decorator for registering a new field type """
-
-    name = kwargs.pop('name')
 
     def dec(f):
         if name in fields.method_dispatch:
@@ -67,10 +67,8 @@ def field_type(**kwargs):
     return dec
 
 
-def field_arg(**kwargs):
+def field_arg(name):
     """ Decorator for registering a new field type argument handler """
-
-    name = kwargs.pop('name')
 
     def dec(f):
         if name in fields.method_dispatch:
@@ -106,14 +104,12 @@ def main():
     writer = csv.writer(output, delimiter=delimiter)
 
     num_rows = int(args.num_rows)
-    current_row = 0
 
     if args.with_header:
         writer.writerow(names)
 
-    while current_row < num_rows:
-        writer.writerow([str(method(argument)) for method, argument in fieldtypes])
-        current_row += 1
+    for n in xrange(num_rows):
+        writer.writerow([method(argument) for method, argument in fieldtypes])
 
 
 if __name__ == '__main__':
