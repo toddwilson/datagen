@@ -65,7 +65,7 @@ Example::
 
 Example::
 
-	id     incrementing_int
+    id     incrementing_int
 
     1
     2
@@ -80,7 +80,7 @@ Params:
 
 Example::
 
-	code	string[4]
+    code	string[4]
 
     FiwH
     Acbj
