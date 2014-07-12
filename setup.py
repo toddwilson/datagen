@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 entrypoints = {
-    'console_scripts': 'datagen = datagen.datagen:main'
+    'console_scripts': 'datagen = datagen:main'
 }
 
 setup(
@@ -14,5 +14,5 @@ setup(
       url='https://github.com/toddwilson/datagen',
       entry_points=entrypoints,
       include_package_data = True,
-      packages=find_packages()
+      packages=find_packages('datagen')
 )

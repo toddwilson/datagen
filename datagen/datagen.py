@@ -1,9 +1,13 @@
 #/usr/bin/env python
+from __future__ import absolute_import
+
 import argparse
 import re
 import csv
 import sys
-import fields
+
+from . import method_dispatch
+from . import fields
 
 re_parse_type = re.compile('(.*)\[(.*)\]')
 re_parse_file = re.compile('([a-zA-Z_0-9]+)\s+([a-zA-Z0-9_]+\[?.*\]?)')
@@ -54,32 +58,6 @@ def read_schema_file(path):
     return names, fieldtypes
 
 
-def field_type(name):
-    """ Decorator for registering a new field type """
-
-    def dec(f):
-        if name in fields.method_dispatch:
-            fields.method_dispatch[name][0] = f
-        else:
-            fields.method_dispatch[name] = [f, None]
-        return f
-
-    return dec
-
-
-def field_arg(name):
-    """ Decorator for registering a new field type argument handler """
-
-    def dec(f):
-        if name in fields.method_dispatch:
-            fields.method_dispatch[name][1] = f
-        else:
-            fields.method_dispatch[name] = [None, f]
-        return f
-
-    return dec
-
-
 def main():
     parser = argparse.ArgumentParser(description='Generate dummy data')
     parser.add_argument('-d', '--delimiter', required=False, help='Delimter to use. Default is |')
@@ -110,7 +88,3 @@ def main():
 
     for n in xrange(num_rows):
         writer.writerow([method(argument) for method, argument in fieldtypes])
-
-
-if __name__ == '__main__':
-    main()

@@ -1,20 +1,46 @@
-from datagen import field_type, field_arg
+from __future__ import absolute_import
+
 from random import randint, choice, random
 import sys
 import os
 import io
 import csv
 from time import strptime, mktime, strftime, localtime
+from . import method_dispatch
 
 
 if sys.version_info.major == 2:
     from string import lowercase
     from string import uppercase
-    lc_set = lowercase + uppercase
+    lset = lowercase + uppercase
 elif sys.version_info.major == 3:
-    from string import ascii_letters as lc_set
+    from string import ascii_letters as lset
 
-method_dispatch = {}
+
+def field_type(name):
+    """ Decorator for registering a new field type """
+
+    def dec(f):
+        if name in method_dispatch:
+            method_dispatch[name][0] = f
+        else:
+            method_dispatch[name] = [f, None]
+        return f
+
+    return dec
+
+
+def field_arg(name):
+    """ Decorator for registering a new field type argument handler """
+
+    def dec(f):
+        if name in method_dispatch:
+            method_dispatch[name][1] = f
+        else:
+            method_dispatch[name] = [None, f]
+        return f
+
+    return dec
 
 
 def arg_parser(arg):
@@ -68,7 +94,7 @@ def integer_field_argument(arg):
 
 @field_type("string")
 def string_field(length):
-    return ''.join(choice(lc_set) for i in range(length))
+    return ''.join(choice(lset) for i in range(length))
 
 
 @field_arg("string")
