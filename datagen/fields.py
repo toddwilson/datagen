@@ -75,6 +75,8 @@ def datafile(name):
 
 firstnames = datafile('firstnames')
 lastnames = datafile('lastnames')
+us_states = datafile('us_states')
+tlds = datafile('tlds')
 
 
 @field_type("bool")
@@ -90,6 +92,13 @@ def integer_field(length):
 @field_arg("int")
 def integer_field_argument(arg):
     return int('9' * int(arg))
+
+
+@field_type("incrementing_int")
+def incrementing_int_field(arg):
+    incrementing_int_field.value += 1
+    return incrementing_int_field.value
+incrementing_int_field.value = 0
 
 
 @field_type("string")
@@ -139,6 +148,35 @@ def date_field(args):
     return strftime("%Y-%m-%d", localtime(before + random() * (after - before)))
 
 
+@field_arg("datetime")
+def datetime_field_argument(arg):
+    args = arg_parser(arg)
+    if 'before' not in args:
+        raise Exception('datetime field is missing required argument "before"')
+    if 'after' not in args:
+        raise Exception('datetime field is missing required argument "after"')
+
+    # dirty hack :/
+    if len(args['before']) == 18:
+        args['before'] = args['before'][0:10] + ' ' + args['before'][10:]
+
+    if len(args['after']) == 18:
+        args['after'] = args['after'][0:10] + ' ' + args['after'][10:]
+
+    tformat = "%Y-%m-%d %H:%M:%S"
+    before = mktime(strptime(args['before'], tformat))
+    after = mktime(strptime(args['after'], tformat))
+
+    return before, after
+
+
+@field_type("datetime")
+def datetime_field(args):
+    before, after = args
+
+    return strftime("%Y-%m-%d %H:%M:%S", localtime(before + random() * (after - before)))
+
+
 @field_type("ssn")
 def ssn_field(arg):
     return "%.3i-%.2i-%.4i" % (randint(1, 999), randint(1, 99), randint(1, 9999))
@@ -152,3 +190,21 @@ def firstname_field(arg):
 @field_type("lastname")
 def lastname_field(arg):
     return choice(lastnames)
+
+
+@field_type("zipcode")
+def zipcode_field(arg):
+    return ''.join(str(randint(0, 9)) for x in xrange(5))
+
+
+@field_type("state")
+def us_state_field(arg):
+    return choice(us_states)
+
+
+@field_type("email")
+def email(arg):
+    name = ''.join(choice(lset) for i in range(randint(3,10)))
+    domain = ''.join(choice(lset) for i in range(randint(3,15)))
+    tld = choice(tlds)
+    return "%s@%s.%s" % (name, domain, tld)

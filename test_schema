@@ -1,9 +1,0 @@
-id          int[5]
-first       firstname
-last        lastname
-password    string[10]
-country     randomSet[US,UK,CA,MX,NZ,AU]
-is_active   bool
-ip          ipv4
-created_at  date[before=2014-01-01, after=2013-01-01]
-ssn         ssn
