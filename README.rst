@@ -46,7 +46,7 @@ Types
 
 **bool**: 1 or 0 randomly.
 
-**int[length]**: A random unsigned integer.
+**int[length]**: Random unsigned integer.
 
 Params:
 
@@ -54,26 +54,75 @@ Params:
 
 Example::
 
-	number    numberint[3]
+	number     numberint[3]
 
 	509
 	49
 	783
 
 
-**incrementing_int**: An automatically incrementing unsigned integer.
+**incrementing_int**: Automatically incrementing unsigned integer.
 
 Example::
 
-    id    incrementing_int
+	id     incrementing_int
+
+    1
+    2
+    3
 
 
-
-**string[length]**: A random case-insensitive string.
+**string[length]**: Random case-insensitive string.
 
 Params:
 
 * length: max-length
 
+Example::
+
+	code	string[4]
+
+    FiwH
+    Acbj
+    EtGM
+
+**randomset[list]**: Random member from a list
+
+Params:
+
+* set: a comma-separated list of values
+
+Example::
+
+    country     randomset[US,UK,MX,CA,NZ]
+
+    MX
+    US
+    CA
+
+**ipv4**: IPv4 address
+
+Example::
+
+    ip     ipv4
+
+    18.149.184.112
+    66.170.176.163
+    186.49.28.83
+
+**date**: ISO 8601 date
+
+Params:
+
+* before: ISO 8601 date top limit
+* after: ISO 8601 bottom limit
+
+Example::
+
+    start_date     date[after=2013-01-01, before=2014-01-01]
+
+    2013-10-05
+    2013-01-10
+    2013-05-14
 
 
