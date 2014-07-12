@@ -12,6 +12,8 @@ Usage
 
 **1. Create a schema file**
 
+::
+
     $ cat > schema.txt <<EOL
 	#name		type[argument]
 	id			int[6]
@@ -25,6 +27,8 @@ Usage
     EOL
 
 **2. Make data**
+
+::
 
 	$ datagen -s schema.txt -n 5 --with-header
 	id|first|last|email|dob|password|is_active|language
@@ -40,7 +44,7 @@ Usage
 Types
 -----
 
-**bool**: 1 or 0 randomly. 
+**bool**: 1 or 0 randomly.
 
 **int[length]**: A random unsigned integer.
 
@@ -50,7 +54,7 @@ Params:
 
 Example::
 
-	what numberint[3]
+	number    numberint[3]
 
 	509
 	49
@@ -59,16 +63,17 @@ Example::
 
 **incrementing_int**: An automatically incrementing unsigned integer.
 
-Example:
+Example::
 
-`incrementing_int`
+    id    incrementing_int
+
+
 
 **string[length]**: A random case-insensitive string.
 
 Params:
 
 * length: max-length
-
 
 
 
