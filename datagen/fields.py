@@ -6,6 +6,7 @@ import os
 import io
 import csv
 from time import strptime, mktime, strftime, localtime
+from datetime import datetime
 from . import method_dispatch
 
 
@@ -163,7 +164,7 @@ def datetime_field_argument(arg):
     if len(args['after']) == 18:
         args['after'] = args['after'][0:10] + ' ' + args['after'][10:]
 
-    tformat = "%Y-%m-%d %H:%M:%S"
+    tformat = "%Y-%m-%dT%H:%M:%S"
     before = mktime(strptime(args['before'], tformat))
     after = mktime(strptime(args['after'], tformat))
 
@@ -173,8 +174,8 @@ def datetime_field_argument(arg):
 @field_type("datetime")
 def datetime_field(args):
     before, after = args
-
-    return strftime("%Y-%m-%d %H:%M:%S", localtime(before + random() * (after - before)))
+    t = localtime(before + random() * (after - before))
+    return datetime(*t[:6]).isoformat()
 
 
 @field_type("ssn")

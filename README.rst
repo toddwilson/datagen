@@ -54,7 +54,7 @@ Params:
 
 Example::
 
-	number     numberint[3]
+	number  numberint[3]
 
 	509
 	49
@@ -65,7 +65,7 @@ Example::
 
 Example::
 
-    id     incrementing_int
+    id  incrementing_int
 
     1
     2
@@ -80,7 +80,7 @@ Params:
 
 Example::
 
-    code	string[4]
+    code  string[4]
 
     FiwH
     Acbj
@@ -94,7 +94,7 @@ Params:
 
 Example::
 
-    country     randomset[US,UK,MX,CA,NZ]
+    country  randomset[US,UK,MX,CA,NZ]
 
     MX
     US
@@ -104,13 +104,13 @@ Example::
 
 Example::
 
-    ip     ipv4
+    ip  ipv4
 
     18.149.184.112
     66.170.176.163
     186.49.28.83
 
-**date**: ISO 8601 date
+**date**: ISO 8601 date (YYYY-MM-DD)
 
 Params:
 
@@ -119,10 +119,83 @@ Params:
 
 Example::
 
-    start_date     date[after=2013-01-01, before=2014-01-01]
+    start_date  date[after=2013-01-01, before=2014-01-01]
 
     2013-10-05
     2013-01-10
     2013-05-14
 
+**datetime**: ISO 8601 datetime (YYYY-MM-DD)
 
+Params:
+
+* before: ISO 8601 datetime top limit
+* after: ISO 8601 bottomtime limit
+
+Example::
+
+    start_at  datetime[after=2013-01-01T00:00:00, before=2014-01-01T00:00:00]
+
+    2013-10-03T13:00:23
+    2013-05-12T00:00:06
+    2013-09-20T03:18:02
+
+**ssn**: 9-digit Social Security Number
+
+Example::
+
+    ssn  ssn
+
+    421-87-2421
+    889-27-3485
+    861-33-1570
+
+**firstname**: Randomized first name (from top names in US Census data)
+
+Example::
+
+    first  firstname
+
+    Todd
+    Jessika
+    Dustin
+
+**lastname**: Randomized last name (from top names in US Census data)
+
+Example::
+
+    last  lastname
+
+    Rivers
+    Akins
+    Reardon
+
+**zipcode**: 5-digit zipcode
+
+Example::
+
+    zip  zipcode
+
+    47245
+    59502
+    20191
+
+**state**: US States (2 letter)
+
+Example::
+
+    state  state
+
+    ID
+    KY
+    AK
+
+**email**: Email address
+
+Example::
+
+    email  email
+
+    QnqfpcP@PIbsLUKq.org
+    SNgOqbQ@YSpfbZQP.int
+    asRooN@qjxukNUhLr.com
