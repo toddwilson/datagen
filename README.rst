@@ -15,15 +15,15 @@ Usage
 ::
 
     $ cat > schema.txt <<EOL
-	#name		type[argument]
-	id			int[6]
-	first		firstname
-	last		lastname
-	email		email
-	dob         date[after=1945-01-01, before=2001-01-01]
-	password	string[8]
-	is_active	bool
-	language	randomset[python,ruby,go,java,c,js,brainfuck]
+	#name      type[argument]
+	id         int[6]
+	first      firstname
+	last       lastname
+	email      email
+	dob        date[after=1945-01-01, before=2001-01-01]
+	password   string[8]
+	is_active  bool
+	language   randomset[python,ruby,go,java,c,js,brainfuck]
     EOL
 
 **2. Make data**
