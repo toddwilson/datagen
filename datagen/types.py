@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from random import randint, choice, random
+from random import randrange, choice, random
 import sys
 import os
 import io
@@ -18,7 +18,7 @@ elif sys.version_info.major == 3:
     from string import ascii_letters as lset
 
 
-def field_type(name):
+def reg_type(name):
     """ Decorator for registering a new field type """
 
     def dec(f):
@@ -31,7 +31,7 @@ def field_type(name):
     return dec
 
 
-def field_arg(name):
+def type_arg(name):
     """ Decorator for registering a new field type argument handler """
 
     def dec(f):
@@ -80,54 +80,54 @@ us_states = datafile('us_states')
 tlds = datafile('tlds')
 
 
-@field_type("bool")
+@reg_type("bool")
 def bool_field(arg):
     return choice((1, 0))
 
 
-@field_type("int")
+@reg_type("int")
 def integer_field(length):
-    return randint(0, length)
+    return randrange(0, length)
 
 
-@field_arg("int")
+@type_arg("int")
 def integer_field_argument(arg):
     return int('9' * int(arg))
 
 
-@field_type("incrementing_int")
+@reg_type("incrementing_int")
 def incrementing_int_field(arg):
     incrementing_int_field.value += 1
     return incrementing_int_field.value
 incrementing_int_field.value = 0
 
 
-@field_type("string")
+@reg_type("string")
 def string_field(length):
     return ''.join(choice(lset) for i in range(length))
 
 
-@field_arg("string")
+@type_arg("string")
 def string_field_argument(arg):
     return int(arg)
 
 
-@field_type("randomset")
+@reg_type("randomset")
 def randomset_field(members):
     return choice(members)
 
 
-@field_arg("randomset")
+@type_arg("randomset")
 def randomset_field_argument(arg):
     return [i for i in arg.split(',')]
 
 
-@field_type("ipv4")
+@reg_type("ipv4")
 def ipv4_field(arg):
-    return '.'.join('%s' % randint(0, 255) for i in range(4))
+    return '.'.join('%s' % randrange(0, 255) for i in range(4))
 
 
-@field_arg("date")
+@type_arg("date")
 def date_field_argument(arg):
     args = arg_parser(arg)
     if 'before' not in args:
@@ -142,27 +142,20 @@ def date_field_argument(arg):
     return before, after
 
 
-@field_type("date")
+@reg_type("date")
 def date_field(args):
     before, after = args
 
     return strftime("%Y-%m-%d", localtime(before + random() * (after - before)))
 
 
-@field_arg("datetime")
+@type_arg("datetime")
 def datetime_field_argument(arg):
     args = arg_parser(arg)
     if 'before' not in args:
         raise Exception('datetime field is missing required argument "before"')
     if 'after' not in args:
         raise Exception('datetime field is missing required argument "after"')
-
-    # dirty hack :/
-    if len(args['before']) == 18:
-        args['before'] = args['before'][0:10] + ' ' + args['before'][10:]
-
-    if len(args['after']) == 18:
-        args['after'] = args['after'][0:10] + ' ' + args['after'][10:]
 
     tformat = "%Y-%m-%dT%H:%M:%S"
     before = mktime(strptime(args['before'], tformat))
@@ -171,41 +164,41 @@ def datetime_field_argument(arg):
     return before, after
 
 
-@field_type("datetime")
+@reg_type("datetime")
 def datetime_field(args):
     before, after = args
     t = localtime(before + random() * (after - before))
     return datetime(*t[:6]).isoformat()
 
 
-@field_type("ssn")
+@reg_type("ssn")
 def ssn_field(arg):
-    return "%.3i-%.2i-%.4i" % (randint(1, 999), randint(1, 99), randint(1, 9999))
+    return "%.3i-%.2i-%.4i" % (randrange(1, 999), randrange(1, 99), randrange(1, 9999))
 
 
-@field_type("firstname")
+@reg_type("firstname")
 def firstname_field(arg):
     return choice(firstnames)
 
 
-@field_type("lastname")
+@reg_type("lastname")
 def lastname_field(arg):
     return choice(lastnames)
 
 
-@field_type("zipcode")
+@reg_type("zipcode")
 def zipcode_field(arg):
-    return ''.join(str(randint(0, 9)) for x in xrange(5))
+    return ''.join(str(randrange(0, 9)) for x in xrange(5))
 
 
-@field_type("state")
+@reg_type("state")
 def us_state_field(arg):
     return choice(us_states)
 
 
-@field_type("email")
+@reg_type("email")
 def email(arg):
-    name = ''.join(choice(lset) for i in range(randint(3,10)))
-    domain = ''.join(choice(lset) for i in range(randint(3,15)))
+    name = ''.join(choice(lset) for i in range(randrange(3, 10)))
+    domain = ''.join(choice(lset) for i in range(randrange(3, 15)))
     tld = choice(tlds)
     return "%s@%s.%s" % (name, domain, tld)

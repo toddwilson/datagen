@@ -199,3 +199,28 @@ Example::
     QnqfpcP@PIbsLUKq.org
     SNgOqbQ@YSpfbZQP.int
     asRooN@qjxukNUhLr.com
+
+
+Adding Your Own Types
+---------------------
+
+It's really easy to add your own types to use in a schema file. Just create a
+method that accepts a single argument and decorate it with `datagen.types.reg_type`.
+
+Example:
+
+.. code-block:: python
+
+    from random import uniform
+    from datagen.types import reg_type
+    from datagen import main
+
+
+    @reg_type("price")
+    def price(arg):
+        return round(uniform(0, 100), 2)
+
+
+    if __name__ == '__main__':
+        main()
+

@@ -6,7 +6,7 @@ import csv
 import sys
 
 from . import method_dispatch
-from . import fields
+from . import types
 
 re_parse_type = re.compile('(.*)\[(.*)\]')
 re_parse_file = re.compile('([a-zA-Z_0-9]+)\s+([a-zA-Z0-9_]+\[?.*\]?)')
@@ -21,7 +21,7 @@ def parse_method(fstr):
         method_name = fstr.strip()
         method_arg_str = None
 
-    method, arg_handler = fields.method_dispatch[method_name.lower()]
+    method, arg_handler = method_dispatch[method_name.lower()]
 
     if arg_handler is None:
         return method, None
