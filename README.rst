@@ -209,6 +209,8 @@ method that accepts a single argument and decorate it with `datagen.types.reg_ty
 
 Example:
 
+<my_datagen.py>
+
 .. code-block:: python
 
     from random import uniform
@@ -223,4 +225,19 @@ Example:
 
     if __name__ == '__main__':
         main()
+
+
+<schema.txt>
+
+::
+
+    item_id   int[5]
+    price     price
+
+::
+
+    $ pypy my_datagen.py -s schema.txt -n 3
+    41746|7.32
+    4077|40.55
+    12814|43.82
 
