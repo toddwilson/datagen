@@ -281,3 +281,14 @@ Adding Arguments to Your Types
     66995|5.08
     5894|7.86
     53659|9.26
+
+
+Performance
+-----------
+
+If you need datagen to write faster, use PyPy. No, really. ::
+
+    $ time python my_datagen.py -s schema.txt -n 1000000 > test_data
+    python my_datagen.py -s schema.txt -n 1000000 > test_data  7.87s user 0.07s system 99% cpu 7.950 total
+    $ time pypy my_datagen.py -s schema.txt -n 1000000 > test_data
+    pypy my_datagen.py -s schema.txt -n 1000000 > test_data  2.79s user 0.06s system 99% cpu 2.863 total
