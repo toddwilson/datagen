@@ -218,8 +218,8 @@ Example:
     from datagen import main
 
 
-    @reg_type("price")
-    def price(arg):
+    @register_type("price")  # the decorator sets the name of the type
+    def price(arg):  # the method must accept one argument (even if not used)
         return round(uniform(0, 100), 2)
 
 
@@ -236,8 +236,48 @@ Example:
 
 ::
 
-    $ pypy my_datagen.py -s schema.txt -n 3
+    $ python my_datagen.py -s schema.txt -n 3
     41746|7.32
     4077|40.55
     12814|43.82
 
+
+Adding Arguments to Your Types
+++++++++++++++++++++++++++++++
+
+<my_datagen.py>
+
+.. code-block:: python
+
+    from random import uniform
+    from datagen.types import reg_type, type_arg
+    from datagen import main
+
+
+    @type_arg("price")  # Use the same name as the type defined in reg_type()
+    def price_argument(arg):  # This method is passed the contents of what's in price[]
+        return int(arg)  # This will get passed to price() when iterating
+
+
+    @register_type("price")  # the decorator sets the name of the type
+    def price(max_price):  # the method must accept one argument (even if not used)
+        return round(uniform(0, max_price), 2)
+
+
+    if __name__ == '__main__':
+        main()
+
+
+<schema.txt>
+
+::
+
+    item_id   int[5]
+    price     price[10]
+
+::
+
+    $ python my_datagen.py -s schema.txt -n 3
+    66995|5.08
+    5894|7.86
+    53659|9.26

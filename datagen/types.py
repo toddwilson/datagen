@@ -18,7 +18,7 @@ elif sys.version_info.major == 3:
     from string import ascii_letters as lset
 
 
-def reg_type(name):
+def register_type(name):
     """ Decorator for registering a new field type """
 
     def dec(f):
@@ -80,12 +80,12 @@ us_states = datafile('us_states')
 tlds = datafile('tlds')
 
 
-@reg_type("bool")
+@register_type("bool")
 def bool_field(arg):
     return choice((1, 0))
 
 
-@reg_type("int")
+@register_type("int")
 def integer_field(length):
     return randrange(0, length)
 
@@ -95,14 +95,14 @@ def integer_field_argument(arg):
     return int('9' * int(arg))
 
 
-@reg_type("incrementing_int")
+@register_type("incrementing_int")
 def incrementing_int_field(arg):
     incrementing_int_field.value += 1
     return incrementing_int_field.value
 incrementing_int_field.value = 0
 
 
-@reg_type("string")
+@register_type("string")
 def string_field(length):
     return ''.join(choice(lset) for i in range(length))
 
@@ -112,7 +112,7 @@ def string_field_argument(arg):
     return int(arg)
 
 
-@reg_type("randomset")
+@register_type("randomset")
 def randomset_field(members):
     return choice(members)
 
@@ -122,7 +122,7 @@ def randomset_field_argument(arg):
     return [i for i in arg.split(',')]
 
 
-@reg_type("ipv4")
+@register_type("ipv4")
 def ipv4_field(arg):
     return '.'.join('%s' % randrange(0, 255) for i in range(4))
 
@@ -142,7 +142,7 @@ def date_field_argument(arg):
     return before, after
 
 
-@reg_type("date")
+@register_type("date")
 def date_field(args):
     before, after = args
 
@@ -164,39 +164,39 @@ def datetime_field_argument(arg):
     return before, after
 
 
-@reg_type("datetime")
+@register_type("datetime")
 def datetime_field(args):
     before, after = args
     t = localtime(before + random() * (after - before))
     return datetime(*t[:6]).isoformat()
 
 
-@reg_type("ssn")
+@register_type("ssn")
 def ssn_field(arg):
     return "%.3i-%.2i-%.4i" % (randrange(1, 999), randrange(1, 99), randrange(1, 9999))
 
 
-@reg_type("firstname")
+@register_type("firstname")
 def firstname_field(arg):
     return choice(firstnames)
 
 
-@reg_type("lastname")
+@register_type("lastname")
 def lastname_field(arg):
     return choice(lastnames)
 
 
-@reg_type("zipcode")
+@register_type("zipcode")
 def zipcode_field(arg):
     return ''.join(str(randrange(0, 9)) for x in xrange(5))
 
 
-@reg_type("state")
+@register_type("state")
 def us_state_field(arg):
     return choice(us_states)
 
 
-@reg_type("email")
+@register_type("email")
 def email(arg):
     name = ''.join(choice(lset) for i in range(randrange(3, 10)))
     domain = ''.join(choice(lset) for i in range(randrange(3, 15)))
