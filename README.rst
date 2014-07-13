@@ -136,7 +136,7 @@ Example::
     2013-01-10
     2013-05-14
 
-**datetime**: ISO 8601 datetime (YYYY-MM-DD)
+**datetime**: ISO 8601 datetime (YYYY-MM-DDTHH:MM:SS)
 
 Params:
 
