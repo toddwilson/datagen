@@ -7,9 +7,9 @@ It runs on Python 2.6-3.4 and *particularly well* on PyPy.
 Installation
 ------------
 
-```pip install datagen```
+``pip install datagen``
 
-Or
+Or::
 
     $ git clone https://github.com/toddwilson/datagen.git
     $ cd datagen
