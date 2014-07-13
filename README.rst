@@ -1,4 +1,4 @@
-datagen: Make sh[2] up
+datagen: make sh[2] up
 ======================
 
 Datagen helps you create sample delimited data using a simple schema format.
@@ -297,7 +297,7 @@ Adding Arguments to Your Types
 Performance
 -----------
 
-If you need datagen to write faster, use PyPy.
+If you need datagen to write faster, use PyPy::
 
     $ time python my_datagen.py -s schema.txt -n 1000000 > test_data
     python my_datagen.py -s schema.txt -n 1000000 > test_data  7.87s user 0.07s system 99% cpu 7.950 total
