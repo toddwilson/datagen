@@ -5,6 +5,9 @@ import re
 import csv
 import sys
 
+if sys.version_info.major == 2:
+    range = xrange
+
 from . import method_dispatch
 from . import types
 
@@ -85,5 +88,5 @@ def main():
     if args.with_header:
         writer.writerow(names)
 
-    for n in xrange(num_rows):
+    for n in range(num_rows):
         writer.writerow([method(argument) for method, argument in fieldtypes])

@@ -4,6 +4,17 @@ datagen: Make sh[2] up
 Datagen helps you create sample delimited data using a simple schema format.
 It runs on Python 2.6-3.4 and *particularly well* on PyPy.
 
+Installation
+------------
+
+```pip install datagen```
+
+Or
+
+    $ git clone https://github.com/toddwilson/datagen.git
+    $ cd datagen
+    $ python setup.py install
+
 Usage
 -----
 
@@ -250,7 +261,7 @@ Adding Arguments to Your Types
 .. code-block:: python
 
     from random import uniform
-    from datagen.types import reg_type, type_arg
+    from datagen.types import register_type, type_arg
     from datagen import main
 
 
@@ -286,7 +297,7 @@ Adding Arguments to Your Types
 Performance
 -----------
 
-If you need datagen to write faster, use PyPy. No, really. ::
+If you need datagen to write faster, use PyPy.
 
     $ time python my_datagen.py -s schema.txt -n 1000000 > test_data
     python my_datagen.py -s schema.txt -n 1000000 > test_data  7.87s user 0.07s system 99% cpu 7.950 total
