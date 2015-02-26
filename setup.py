@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 with open('README.rst') as f:
     README = f.read()
@@ -22,7 +22,7 @@ setup(
     keywords=['data generation', 'sample data', 'hadoop'],
     entry_points=entrypoints,
     include_package_data=True,
-    packages=find_packages('datagen'),
+    packages=find_packages(),
     classifiers=(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

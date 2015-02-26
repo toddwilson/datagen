@@ -1,0 +1,2 @@
+item_id int[5]
+price   price[10]
