@@ -60,7 +60,7 @@ def read_schema_file(path):
     return names, fieldtypes
 
 
-def main():
+def main(args=None):
     parser = argparse.ArgumentParser(description='Generate dummy data')
     parser.add_argument('-d', '--delimiter', required=False, help='Delimter to use. Default is |')
     parser.add_argument('--with-header', required=False, action='store_true', help='Write column headers as first row')
@@ -68,7 +68,7 @@ def main():
     parser.add_argument('-s', '--schema', required=True, help='Schema file to load')
     parser.add_argument('output', nargs='?', help='Path to write to (STDOUT if not specified')
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.output is None:
         output = sys.stdout
@@ -90,3 +90,5 @@ def main():
 
     for n in range(num_rows):
         writer.writerow([method(argument) for method, argument in fieldtypes])
+
+    output.close()
